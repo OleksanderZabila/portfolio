@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section id="hero" class="min-h-[90vh] flex items-center px-6">
+    <div class="max-w-6xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
+        <div class="reveal">
+            {% if profile.is_available %}
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neon-lime/10 border border-neon-lime/30 text-neon-lime text-xs font-mono mb-6">
+                <span class="w-2 h-2 rounded-full bg-neon-lime animate-pulse"></span>
+                Open to work
+            </div>
+            {% endif %}
+            <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
+                Hi, I'm <span class="bg-gradient-to-r from-neon-cyan via-neon-fuchsia to-neon-violet bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient">{{ profile.full_name|default:"Developer" }}</span>
+            </h1>
+            <p class="mt-4 text-xl text-slate-400 font-mono">
+                <span id="typewriter"></span><span class="text-neon-cyan animate-pulse">|</span>
+            </p>
+            <p class="mt-6 text-slate-400 max-w-lg leading-relaxed">{{ profile.summary|truncatewords:35 }}</p>
+            <div class="mt-8 flex flex-wrap gap-4">
+                <a href="#projects" class="px-6 py-3 rounded-full bg-gradient-to-r from-neon-fuchsia to-neon-violet font-semibold hover:scale-105 transition shadow-lg shadow-neon-fuchsia/30">
+                    View My Work →
+                </a>
+                <a href="#contact" class="px-6 py-3 rounded-full border border-border hover:border-neon-cyan hover:text-neon-cyan transition">
+                    Get in Touch
+                </a>
+            </div>
+            <div class="mt-10 flex items-center gap-5 text-slate-500">
+                {% if profile.github %}<a href="https://github.com/{{ profile.github }}" target="_blank" class="hover:text-neon-cyan transition" title="GitHub"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 0z"/></svg></a>{% endif %}
+                {% if profile.telegram %}<a href="https://t.me/{{ profile.telegram }}" target="_blank" class="hover:text-neon-cyan transition" title="Telegram"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm5.6 8.2-1.9 8.9c-.1.6-.5.8-1 .5l-2.8-2-1.3 1.3c-.2.2-.3.3-.6.3l.2-3 5.4-4.9c.2-.2 0-.3-.3-.1L8.7 13l-2.9-.9c-.6-.2-.6-.6.2-.9l11.2-4.3c.5-.2 1 .1.8.9z"/></svg></a>{% endif %}
+                {% if profile.linkedin %}<a href="{{ profile.linkedin }}" target="_blank" class="hover:text-neon-cyan transition" title="LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3v9zM6.5 8.3a1.7 1.7 0 1 1 0-3.5 1.7 1.7 0 0 1 0 3.5zM19 19h-3v-4.7c0-1.1 0-2.5-1.5-2.5S13 13 13 14.2V19h-3v-9h2.9v1.2h.1c.4-.8 1.4-1.5 2.9-1.5 3.1 0 3.6 2 3.6 4.7V19z"/></svg></a>{% endif %}
+                {% if profile.email %}<a href="mailto:{{ profile.email }}" class="hover:text-neon-cyan transition" title="Email"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg></a>{% endif %}
+            </div>
+        </div>
+        <div class="relative reveal">
+            <div class="absolute -inset-4 bg-gradient-to-br from-neon-cyan via-neon-fuchsia to-neon-violet rounded-3xl blur-2xl opacity-30 animate-pulse"></div>
+            <div class="relative bg-card border border-border rounded-3xl p-6 animate-float">
+                {% if profile.avatar %}
+                <img src="{{ profile.avatar.url }}" alt="{{ profile.full_name }}" class="w-full rounded-2xl">
+                {% elif gh_summary.user.avatar_url %}
+                <img src="{{ gh_summary.user.avatar_url }}" alt="{{ profile.full_name }}" class="w-full rounded-2xl">
+                {% else %}
+                <div class="aspect-square rounded-2xl bg-gradient-to-br from-neon-cyan/20 to-neon-fuchsia/20 flex items-center justify-center text-7xl font-extrabold text-white/50">{{ profile.full_name|slice:":1"|default:"D" }}</div>
+                {% endif %}
+                <div class="grid grid-cols-3 gap-2 mt-4 text-center text-xs font-mono">
+                    <div class="p-2 rounded bg-bg/50 border border-border">
+                        <div class="text-neon-cyan text-lg font-bold">{{ gh_summary.total_repos|default:0 }}</div>
+                        <div class="text-slate-500">repos</div>
+                    </div>
+                    <div class="p-2 rounded bg-bg/50 border border-border">
+                        <div class="text-neon-fuchsia text-lg font-bold">{{ gh_summary.user.followers|default:0 }}</div>
+                        <div class="text-slate-500">followers</div>
+                    </div>
+                    <div class="p-2 rounded bg-bg/50 border border-border">
+                        <div class="text-neon-violet text-lg font-bold">{{ gh_summary.total_stars|default:0 }}</div>
+                        <div class="text-slate-500">stars</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="px-6 py-24">
+    <div class="max-w-4xl mx-auto reveal">
+        <h2 class="text-sm font-mono text-neon-cyan mb-2">// about</h2>
+        <h3 class="text-4xl font-bold mb-8">Who am I?</h3>
+        <div class="bg-card border border-border rounded-2xl p-8 leading-relaxed text-slate-300">
+            {{ profile.summary|linebreaks }}
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-8 border-t border-border text-sm">
+                {% if profile.location %}<div><div class="text-slate-500 text-xs mb-1">Location</div><div>{{ profile.location }}</div></div>{% endif %}
+                {% if profile.email %}<div><div class="text-slate-500 text-xs mb-1">Email</div><div class="text-neon-cyan break-all">{{ profile.email }}</div></div>{% endif %}
+                {% if profile.phone %}<div><div class="text-slate-500 text-xs mb-1">Phone</div><div>{{ profile.phone }}</div></div>{% endif %}
+                {% if profile.telegram %}<div><div class="text-slate-500 text-xs mb-1">Telegram</div><div>@{{ profile.telegram }}</div></div>{% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="skills" class="px-6 py-24">
+    <div class="max-w-6xl mx-auto reveal">
+        <h2 class="text-sm font-mono text-neon-fuchsia mb-2">// skills</h2>
+        <h3 class="text-4xl font-bold mb-12">Tech Stack</h3>
+        <div class="grid md:grid-cols-2 gap-6">
+            {% for category, skills in skills_by_cat.items %}
+            <div class="bg-card border border-border rounded-2xl p-6 hover:border-neon-fuchsia/50 transition group">
+                <h4 class="font-semibold text-lg mb-5 text-neon-fuchsia">{{ category }}</h4>
+                <div class="space-y-4">
+                    {% for skill in skills %}
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>{{ skill.name }}</span>
+                            <span class="font-mono text-xs text-slate-500">{{ skill.level }}%</span>
+                        </div>
+                        <div class="h-1.5 bg-bg rounded-full overflow-hidden">
+                            <div class="skill-bar h-full bg-gradient-to-r from-neon-cyan to-neon-fuchsia rounded-full" data-level="{{ skill.level }}" style="width:0"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-slate-500 col-span-2 text-center">No skills added yet — add some in the admin.</p>
+            {% endfor %}
+        </div>
+
+        {% if gh_summary.languages %}
+        <div class="mt-10 bg-card border border-border rounded-2xl p-6">
+            <h4 class="font-semibold text-lg mb-4 flex items-center gap-2"><span class="text-neon-cyan">●</span> GitHub Languages <span class="text-xs font-mono text-slate-500">(live)</span></h4>
+            <div class="flex flex-wrap gap-2">
+                {% for lang in gh_summary.languages %}
+                <span class="px-3 py-1.5 rounded-full bg-bg border border-border text-sm font-mono">
+                    {{ lang.name }} <span class="text-slate-500 ml-1 text-xs">{{ lang.percent }}%</span>
+                </span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section id="projects" class="px-6 py-24">
+    <div class="max-w-6xl mx-auto reveal">
+        <h2 class="text-sm font-mono text-neon-violet mb-2">// projects</h2>
+        <div class="flex items-end justify-between mb-12 flex-wrap gap-4">
+            <h3 class="text-4xl font-bold">Featured Work</h3>
+            <a href="{% url 'main:projects' %}" class="text-sm text-neon-cyan hover:underline font-mono">view all repos →</a>
+        </div>
+
+        {% if projects %}
+        <div class="grid md:grid-cols-2 gap-6 mb-10">
+            {% for p in projects %}
+            <article class="group bg-card border border-border rounded-2xl overflow-hidden hover:border-neon-violet/50 transition-all hover:-translate-y-1 relative">
+                {% if p.is_confidential %}
+                <div class="absolute top-3 right-3 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-bg/80 backdrop-blur border border-yellow-500/40 text-yellow-400 text-xs font-mono">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    Confidential
+                </div>
+                {% endif %}
+                {% if p.image or p.image2 or p.image3 %}
+                <div class="aspect-video overflow-hidden bg-bg relative gallery" data-gallery>
+                    {% if p.image %}<img src="{{ p.image.url }}" alt="{{ p.title }}" class="gallery-slide absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-100" data-idx="0">{% endif %}
+                    {% if p.image2 %}<img src="{{ p.image2.url }}" alt="" class="gallery-slide absolute inset-0 w-full h-full object-cover transition duration-500 opacity-0" data-idx="1">{% endif %}
+                    {% if p.image3 %}<img src="{{ p.image3.url }}" alt="" class="gallery-slide absolute inset-0 w-full h-full object-cover transition duration-500 opacity-0" data-idx="2">{% endif %}
+                    {% if p.image2 or p.image3 %}
+                    <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                        {% if p.image %}<button type="button" class="gallery-dot w-2 h-2 rounded-full bg-white" data-idx="0" aria-label="image 1"></button>{% endif %}
+                        {% if p.image2 %}<button type="button" class="gallery-dot w-2 h-2 rounded-full bg-white/40" data-idx="1" aria-label="image 2"></button>{% endif %}
+                        {% if p.image3 %}<button type="button" class="gallery-dot w-2 h-2 rounded-full bg-white/40" data-idx="2" aria-label="image 3"></button>{% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="aspect-video bg-gradient-to-br from-neon-violet/20 via-neon-fuchsia/10 to-neon-cyan/20 flex items-center justify-center font-mono text-4xl text-white/30">&lt;/&gt;</div>
+                {% endif %}
+                <div class="p-6">
+                    <h4 class="font-bold text-xl mb-2 group-hover:text-neon-violet transition flex items-center gap-2">
+                        {{ p.title }}
+                    </h4>
+                    <p class="text-slate-400 text-sm mb-4">{{ p.short_description }}</p>
+                    {% if p.users_count %}
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neon-lime/10 border border-neon-lime/30 mb-4">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a3e635" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        <span class="text-neon-lime text-sm font-mono font-bold">{{ p.users_count|stringformat:"d" }} users</span>
+                        {% if p.users_count_label %}<span class="text-slate-500 text-xs font-mono">· {{ p.users_count_label }}</span>{% endif %}
+                    </div>
+                    {% endif %}
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        {% for t in p.tech_list %}<span class="text-xs px-2 py-0.5 rounded bg-bg border border-border font-mono">{{ t }}</span>{% endfor %}
+                    </div>
+                    <div class="flex gap-3 text-sm">
+                        {% if p.is_confidential %}
+                            <span class="text-yellow-400/80 font-mono text-xs flex items-center gap-1">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                Source code private
+                            </span>
+                        {% else %}
+                            {% if p.github_url %}<a href="{{ p.github_url }}" target="_blank" class="text-neon-cyan hover:underline">Code →</a>{% endif %}
+                        {% endif %}
+                        {% if p.live_url %}<a href="{{ p.live_url }}" target="_blank" class="text-neon-fuchsia hover:underline">Live →</a>{% endif %}
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <h4 class="font-mono text-sm text-slate-500 mb-4">// Latest from GitHub</h4>
+        <div class="grid md:grid-cols-3 gap-4">
+            {% for r in gh_repos %}
+            <a href="{{ r.url }}" target="_blank" class="block bg-card border border-border rounded-xl p-5 hover:border-neon-cyan/50 hover:-translate-y-1 transition group">
+                <div class="flex items-center justify-between mb-2">
+                    <h5 class="font-mono font-semibold text-neon-cyan group-hover:underline">{{ r.name }}</h5>
+                    {% if r.stars %}<span class="text-xs text-yellow-400 font-mono">★ {{ r.stars }}</span>{% endif %}
+                </div>
+                <p class="text-xs text-slate-400 line-clamp-2 min-h-[2.5rem]">{{ r.description|default:"— no description —" }}</p>
+                <div class="mt-3 flex items-center justify-between text-xs font-mono">
+                    <span class="text-neon-fuchsia">{{ r.language }}</span>
+                    <span class="text-slate-600">{{ r.size_kb }} KB</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="experience" class="px-6 py-24">
+    <div class="max-w-4xl mx-auto reveal">
+        <h2 class="text-sm font-mono text-neon-lime mb-2">// experience</h2>
+        <h3 class="text-4xl font-bold mb-12">Journey</h3>
+        <div class="relative border-l-2 border-border ml-3 space-y-8">
+            {% for e in experiences %}
+            <div class="pl-8 relative">
+                <div class="absolute -left-[10px] top-1 w-4 h-4 rounded-full bg-neon-lime ring-4 ring-bg"></div>
+                <div class="bg-card border border-border rounded-xl p-5">
+                    <div class="flex flex-wrap justify-between gap-2 mb-2">
+                        <h4 class="font-bold text-lg">{{ e.role }} <span class="text-neon-lime">@ {{ e.company }}</span></h4>
+                        <span class="text-xs font-mono text-slate-500">{{ e.start_date|date:"M Y" }} — {{ e.end_date|date:"M Y"|default:"Now" }}</span>
+                    </div>
+                    <p class="text-slate-400 text-sm">{{ e.description|linebreaks }}</p>
+                    {% if e.tech %}<div class="mt-2 text-xs font-mono text-slate-500">{{ e.tech }}</div>{% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            {% for ed in education %}
+            <div class="pl-8 relative">
+                <div class="absolute -left-[10px] top-1 w-4 h-4 rounded-full bg-neon-cyan ring-4 ring-bg"></div>
+                <div class="bg-card border border-border rounded-xl p-5">
+                    <div class="flex flex-wrap justify-between gap-2 mb-2">
+                        <h4 class="font-bold text-lg">{{ ed.degree }}<span class="text-neon-cyan"> · {{ ed.institution }}</span></h4>
+                        <span class="text-xs font-mono text-slate-500">{{ ed.start_year }} — {{ ed.end_year|default:"Present" }}</span>
+                    </div>
+                    {% if ed.description %}<p class="text-slate-400 text-sm">{{ ed.description }}</p>{% endif %}
+                    {% if ed.location %}<div class="mt-2 text-xs font-mono text-slate-500">📍 {{ ed.location }}</div>{% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="px-6 py-24">
+    <div class="max-w-3xl mx-auto reveal">
+        <h2 class="text-sm font-mono text-neon-cyan mb-2">// contact</h2>
+        <h3 class="text-4xl font-bold mb-4">Let's build something together</h3>
+        <p class="text-slate-400 mb-8">Have a project in mind, or just want to chat? Drop me a line.</p>
+
+        {% if messages %}
+            {% for m in messages %}
+            <div class="mb-6 p-4 rounded-lg {% if m.tags == 'success' %}bg-neon-lime/10 border border-neon-lime/30 text-neon-lime{% else %}bg-red-500/10 border border-red-500/30 text-red-400{% endif %}">{{ m }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" action="{% url 'main:contact_submit' %}" class="bg-card border border-border rounded-2xl p-6 space-y-4">
+            {% csrf_token %}
+            <div class="grid md:grid-cols-2 gap-4">
+                <input type="text" name="name" placeholder="Your name" required class="w-full px-4 py-3 bg-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none transition">
+                <input type="email" name="email" placeholder="Your email" required class="w-full px-4 py-3 bg-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none transition">
+            </div>
+            <input type="text" name="subject" placeholder="Subject" class="w-full px-4 py-3 bg-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none transition">
+            <textarea name="message" placeholder="Your message..." rows="5" required class="w-full px-4 py-3 bg-bg border border-border rounded-lg focus:border-neon-cyan focus:outline-none transition resize-none"></textarea>
+            <button type="submit" class="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-neon-cyan via-neon-fuchsia to-neon-violet font-semibold hover:scale-[1.01] transition shadow-lg shadow-neon-fuchsia/20">
+                Send Message →
+            </button>
+        </form>
+    </div>
+</section>
+
+<script>
+window.__profile_title = "{{ profile.title|default:'Developer'|escapejs }}";
+</script>
+
+{% endblock %}

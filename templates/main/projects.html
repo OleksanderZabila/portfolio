@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="px-6 py-24">
+    <div class="max-w-6xl mx-auto">
+        <a href="/" class="text-sm text-neon-cyan hover:underline font-mono">← back home</a>
+        <h1 class="text-5xl font-extrabold mt-4 mb-12 bg-gradient-to-r from-neon-cyan to-neon-fuchsia bg-clip-text text-transparent">All Projects</h1>
+
+        {% if projects %}
+        <h2 class="text-sm font-mono text-slate-500 mb-4">// Featured</h2>
+        <div class="grid md:grid-cols-2 gap-6 mb-16">
+            {% for p in projects %}
+            <article class="bg-card border border-border rounded-2xl p-6 hover:border-neon-fuchsia/50 transition">
+                <h3 class="font-bold text-xl mb-2">{{ p.title }}</h3>
+                <p class="text-slate-400 text-sm mb-4">{{ p.short_description }}</p>
+                <div class="flex flex-wrap gap-1.5 mb-4">
+                    {% for t in p.tech_list %}<span class="text-xs px-2 py-0.5 rounded bg-bg border border-border font-mono">{{ t }}</span>{% endfor %}
+                </div>
+                <div class="flex gap-3 text-sm">
+                    {% if p.github_url %}<a href="{{ p.github_url }}" target="_blank" class="text-neon-cyan hover:underline">Code →</a>{% endif %}
+                    {% if p.live_url %}<a href="{{ p.live_url }}" target="_blank" class="text-neon-fuchsia hover:underline">Live →</a>{% endif %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <h2 class="text-sm font-mono text-slate-500 mb-4">// All GitHub Repositories</h2>
+        <div class="grid md:grid-cols-3 gap-4">
+            {% for r in gh_repos %}
+            <a href="{{ r.url }}" target="_blank" class="block bg-card border border-border rounded-xl p-5 hover:border-neon-cyan/50 hover:-translate-y-1 transition group">
+                <div class="flex items-center justify-between mb-2">
+                    <h5 class="font-mono font-semibold text-neon-cyan group-hover:underline">{{ r.name }}</h5>
+                    {% if r.stars %}<span class="text-xs text-yellow-400 font-mono">★ {{ r.stars }}</span>{% endif %}
+                </div>
+                <p class="text-xs text-slate-400 line-clamp-2 min-h-[2.5rem]">{{ r.description|default:"— no description —" }}</p>
+                <div class="mt-3 flex items-center justify-between text-xs font-mono">
+                    <span class="text-neon-fuchsia">{{ r.language }}</span>
+                    <span class="text-slate-600">{{ r.size_kb }} KB</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
