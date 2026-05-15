@@ -166,7 +166,5 @@ WhiteNoise already serves static files in production with gzip + manifest hashin
 - 🐙 [GitHub @OleksanderZabila](https://github.com/OleksanderZabila)
 - 📞 +380 50 838 4092
 - 📍 Cherkasy, Ukraine
-
 ---
-
 *Built with Django · Tailwind · ☕ · ❤️*
