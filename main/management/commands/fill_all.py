@@ -3,8 +3,12 @@
 Reads assets from ``seed_assets/`` (committed to repo) so it works on Render
 after a fresh clone, not just on the developer's machine.
 """
+import io
 from pathlib import Path
+
+import requests
 from django.core.files import File
+from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from main.models import Profile, Project
@@ -12,6 +16,31 @@ from main.models import Profile, Project
 ASSETS = Path(settings.BASE_DIR) / "seed_assets"
 PROJECTS_DIR = ASSETS / "projects"
 CV_DIR = ASSETS / "cv"
+
+
+def download_avatar(github_username):
+    """Pull the GitHub avatar at build time so the site doesn't depend on the
+    API at request time. Returns (filename, bytes) or (None, None)."""
+    if not github_username:
+        return None, None
+    try:
+        r = requests.get(
+            f"https://api.github.com/users/{github_username}",
+            headers={"User-Agent": "portfolio-build", "Accept": "application/vnd.github+json"},
+            timeout=8,
+        )
+        if r.status_code != 200:
+            print(f"  ! github user {github_username} -> HTTP {r.status_code}")
+            return None, None
+        avatar_url = r.json().get("avatar_url")
+        if not avatar_url:
+            return None, None
+        img = requests.get(avatar_url, timeout=10)
+        if img.status_code == 200:
+            return f"{github_username}.png", img.content
+    except requests.RequestException as e:
+        print(f"  ! avatar download failed: {e}")
+    return None, None
 
 
 def attach(model_instance, field_name, file_path):
@@ -34,6 +63,16 @@ class Command(BaseCommand):
             return
         p.email = "ukzabila@gmail.com"
         p.linkedin = "https://www.linkedin.com/in/oleksandr-zabila-274aab353/"
+
+        # Pre-fetch the GitHub avatar so we don't rely on the API at runtime.
+        # (Render shared IPs hit the unauthenticated 60 req/h limit fast.)
+        avatar_name, avatar_bytes = download_avatar(p.github)
+        if avatar_bytes:
+            p.avatar.save(avatar_name, ContentFile(avatar_bytes), save=False)
+            print(f"  avatar attached: {avatar_name}")
+        else:
+            print("  ! avatar skipped (no github data)")
+
         cv_source = CV_DIR / "CV_Aleksandr_Zabila.pdf"
         if attach(p, "cv_file", cv_source):
             print(f"  cv attached: {cv_source.name}")

@@ -14,15 +14,16 @@
 }
 
 [data-theme="light"] {
-    --c-bg:      247 249 252;     /* near-white with cool tint */
-    --c-surface: 241 245 249;     /* slate-100 */
-    --c-card:    255 255 255;     /* pure white cards */
-    --c-border:  226 232 240;     /* slate-200 */
-    --c-text:    15 23 42;        /* slate-900 */
-    --c-muted:   71 85 105;       /* slate-600 */
-    --c-faint:   100 116 139;     /* slate-500 */
-    --grid-line: rgba(0, 0, 0, 0.04);
-    --scroll-bg: #f1f5f9;
+    /* Warm cream / sand palette — coffee-table magazine look. */
+    --c-bg:      250 244 233;     /* #faf4e9  ivory cream */
+    --c-surface: 244 235 216;     /* #f4ebd8  light sand */
+    --c-card:    255 252 246;     /* #fffcf6  off-white card */
+    --c-border:  226 213 187;     /* #e2d5bb  warm sand border */
+    --c-text:    41 33 19;        /* #292113  deep warm espresso */
+    --c-muted:   107 91 67;       /* #6b5b43  warm taupe */
+    --c-faint:   144 124 96;      /* #907c60  warm khaki */
+    --grid-line: rgba(120, 88, 40, 0.07);
+    --scroll-bg: #f4ebd8;
 }
 
 /* ---------- Body text colors driven by theme ---------- */
@@ -30,19 +31,24 @@
 .themed-muted { color: rgb(var(--c-muted)); }
 
 /* Override the slate utility classes used throughout the templates so the
-   markup stays the same but text adapts when the theme switches. */
-[data-theme="light"] .text-slate-200 { color: rgb(15, 23, 42); }
-[data-theme="light"] .text-slate-300 { color: rgb(30, 41, 59); }
-[data-theme="light"] .text-slate-400 { color: rgb(71, 85, 105); }
-[data-theme="light"] .text-slate-500 { color: rgb(100, 116, 139); }
-[data-theme="light"] .text-slate-600 { color: rgb(71, 85, 105); }
-[data-theme="light"] .text-white     { color: rgb(15, 23, 42); }
-[data-theme="light"] .text-white\/30 { color: rgba(15, 23, 42, 0.3); }
+   markup stays the same but text adapts when the theme switches.
+   Light theme = warm browns, not cold slates. */
+[data-theme="light"] .text-slate-200 { color: rgb(41, 33, 19); }
+[data-theme="light"] .text-slate-300 { color: rgb(64, 51, 28); }
+[data-theme="light"] .text-slate-400 { color: rgb(107, 91, 67); }
+[data-theme="light"] .text-slate-500 { color: rgb(144, 124, 96); }
+[data-theme="light"] .text-slate-600 { color: rgb(107, 91, 67); }
+[data-theme="light"] .text-white     { color: rgb(41, 33, 19); }
+[data-theme="light"] .text-white\/30 { color: rgba(41, 33, 19, 0.35); }
+[data-theme="light"] .text-white\/50 { color: rgba(41, 33, 19, 0.55); }
 
-/* Soften the blob gradients on the bright canvas. */
-[data-theme="light"] .bg-neon-violet\/30 { background-color: rgb(139 92 246 / 0.18); }
-[data-theme="light"] .bg-neon-cyan\/20   { background-color: rgb(34 211 238 / 0.16); }
-[data-theme="light"] .bg-neon-fuchsia\/20 { background-color: rgb(217 70 239 / 0.16); }
+/* Soften the blob gradients on the bright canvas — warmer hues. */
+[data-theme="light"] .bg-neon-violet\/30 { background-color: rgb(170 140 90 / 0.20); }
+[data-theme="light"] .bg-neon-cyan\/20   { background-color: rgb(120 170 180 / 0.16); }
+[data-theme="light"] .bg-neon-fuchsia\/20 { background-color: rgb(210 130 110 / 0.16); }
+
+/* Project tech-chip on light theme reads on cream, not on dark. */
+[data-theme="light"] .bg-bg.border.border-border { background-color: rgb(244 235 216); }
 
 /* Background grid pattern (the only place white-on-white was a problem). */
 .grid-pattern {
