@@ -5,16 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ site_profile.full_name|default:"Portfolio" }} — {{ site_profile.title|default:"Developer" }}{% endblock %}</title>
     <meta name="description" content="{{ site_profile.summary|truncatewords:30 }}">
+
+    <script>
+      // Apply saved theme BEFORE the page paints to avoid a flash.
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          var sys = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', saved || sys);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              bg: '#07070b',
-              surface: '#0e0e14',
-              card: '#13131c',
-              border: '#1f1f2e',
+              // Themeable colors backed by CSS variables (see style.css).
+              bg:      'rgb(var(--c-bg) / <alpha-value>)',
+              surface: 'rgb(var(--c-surface) / <alpha-value>)',
+              card:    'rgb(var(--c-card) / <alpha-value>)',
+              border:  'rgb(var(--c-border) / <alpha-value>)',
+              // Neon accents stay solid in both themes.
               neon: { cyan: '#22d3ee', fuchsia: '#d946ef', violet: '#8b5cf6', lime: '#a3e635' }
             },
             fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'], mono: ['JetBrains Mono','ui-monospace'] },
@@ -39,32 +55,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body class="bg-bg text-slate-200 font-sans antialiased selection:bg-neon-fuchsia/40">
+<body class="bg-bg font-sans antialiased selection:bg-neon-fuchsia/40 themed-body">
 
 <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
     <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-neon-violet/30 rounded-full blur-[120px] animate-blob"></div>
     <div class="absolute top-[40%] right-[-10%] w-[600px] h-[600px] bg-neon-cyan/20 rounded-full blur-[140px] animate-blob" style="animation-delay:-4s"></div>
     <div class="absolute bottom-[-10%] left-[30%] w-[500px] h-[500px] bg-neon-fuchsia/20 rounded-full blur-[130px] animate-blob" style="animation-delay:-8s"></div>
-    <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.025)_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"></div>
+    <div class="absolute inset-0 grid-pattern [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"></div>
 </div>
 
 <nav class="fixed top-0 inset-x-0 z-50 backdrop-blur-lg bg-bg/60 border-b border-border">
-    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
         <a href="#hero" class="font-mono font-bold text-lg bg-gradient-to-r from-neon-cyan via-neon-fuchsia to-neon-violet bg-clip-text text-transparent">
             &lt;{{ site_profile.full_name|default:"dev"|slice:":2"|lower }}/&gt;
         </a>
-        <ul class="hidden md:flex items-center gap-8 text-sm text-slate-400">
+        <ul class="hidden md:flex items-center gap-8 text-sm themed-muted">
             <li><a href="#about" class="hover:text-neon-cyan transition">About</a></li>
             <li><a href="#skills" class="hover:text-neon-cyan transition">Skills</a></li>
             <li><a href="#projects" class="hover:text-neon-cyan transition">Projects</a></li>
             <li><a href="#experience" class="hover:text-neon-cyan transition">Experience</a></li>
             <li><a href="#contact" class="hover:text-neon-cyan transition">Contact</a></li>
         </ul>
-        {% if site_profile.cv_file %}
-        <a href="{{ site_profile.cv_file.url }}" download class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neon-cyan/50 text-neon-cyan text-sm hover:bg-neon-cyan/10 transition">
-            CV ↓
-        </a>
-        {% endif %}
+        <div class="flex items-center gap-2">
+            <button type="button" id="theme-toggle" aria-label="Toggle theme"
+                    class="w-9 h-9 grid place-items-center rounded-full border border-border hover:border-neon-cyan hover:text-neon-cyan transition">
+                <svg class="theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg class="theme-icon-light hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            </button>
+            {% if site_profile.cv_file %}
+            <a href="{{ site_profile.cv_file.url }}" download class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neon-cyan/50 text-neon-cyan text-sm hover:bg-neon-cyan/10 transition">
+                CV ↓
+            </a>
+            {% endif %}
+        </div>
     </div>
 </nav>
 
@@ -72,7 +95,7 @@
     {% block content %}{% endblock %}
 </main>
 
-<footer class="border-t border-border mt-32 py-10 text-center text-slate-500 text-sm">
+<footer class="border-t border-border mt-32 py-10 text-center themed-muted text-sm">
     <p>© {% now "Y" %} {{ site_profile.full_name|default:"Portfolio" }}. Built with Django & Tailwind.</p>
     <p class="mt-2 font-mono text-xs">Made with <span class="text-neon-fuchsia">♥</span> in {{ site_profile.location|default:"Ukraine" }}</p>
 </footer>

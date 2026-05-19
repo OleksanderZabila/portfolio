@@ -170,37 +170,43 @@ def build():
     add_title(doc, "Junior Python Developer")
     add_contacts(doc, [
         "+380 50 838 4092  |  ukzabila@gmail.com  |  Cherkasy, Ukraine",
-        "github.com/OleksanderZabila  |  t.me/ZabilaOleksandr",
-        "Remote / Office  |  Open to relocate",
+        "github.com/OleksanderZabila  |  linkedin.com/in/oleksandr-zabila-274aab353",
+        "t.me/ZabilaOleksandr  |  Remote / Office  |  Open to relocate",
     ])
 
-    # Summary
+    # Summary — direct, stack-focused, no buzzwords. Junior with pet projects.
     add_section_heading(doc, "Summary")
     add_body(doc,
-        "Computer Engineering Master's student at MAUP (expected 2027) focused on "
-        "Python backend development and PostgreSQL design. Built and deployed a "
-        "production Telegram bot currently serving 2,100+ daily users, plus a "
-        "desktop inventory system as a diploma project for a real client. Looking "
-        "for a Junior Python Developer role where I can contribute to real products "
-        "and grow within a strong engineering team.",
+        "Python developer focused on backend systems and Telegram bots. Worked with "
+        "Python, Django, python-telegram-bot, PostgreSQL, and SQLite — built a "
+        "production Telegram bot currently serving 2,100+ daily users, a desktop CRM "
+        "for an auto-parts shop, and a web CRM/POS system for an auto service. All "
+        "projects are personal / pet — I have no commercial experience yet. Completing "
+        "a Master's in Computer Engineering at MAUP and looking for a Junior Python "
+        "Developer role to gain commercial experience in a strong engineering team.",
         after=2,
     )
 
-    # Skills
+    # Skills — plain stack, no percentages, no Databases as a separate row.
     add_section_heading(doc, "Skills")
-    add_skill_row(doc, "Languages:", "Python (primary), C++, SQL, JavaScript (basic)")
-    add_skill_row(doc, "Backend:", "Django (ORM, admin, management commands), python-telegram-bot, asyncio, REST API integration (GitHub, Telegram)")
-    add_skill_row(doc, "Databases:", "PostgreSQL (schema design, queries, normalisation), SQLite")
+    add_skill_row(doc, "Languages:", "Python, C++, SQL, JavaScript")
+    add_skill_row(doc, "Backend:", "Django (ORM, admin, management commands), python-telegram-bot, asyncio, REST API integration, PostgreSQL, SQLite")
     add_skill_row(doc, "Frontend:", "HTML, CSS, Tailwind CSS, vanilla JavaScript, responsive design")
     add_skill_row(doc, "Tools:", "Git, GitHub, PyCharm, VS Code, pgAdmin, Tkinter, matplotlib, ngrok")
     add_skill_row(doc, "Concepts:", "OOP, CRUD, role-based access control, caching, environment-based config, deployment basics")
     add_skill_row(doc, "Spoken:", "Ukrainian — Native  |  English — A2 (improving)")
 
     # Projects
-    add_section_heading(doc, "Projects")
+    add_section_heading(doc, "Projects (personal / pet)")
+    add_body(doc,
+        "All projects below were built on my own time — I haven't worked commercially yet. "
+        "They were made to learn the stack, solve real problems for friends / small "
+        "businesses, and ship something useful.",
+        size=10, italic=True, after=4,
+    )
 
     # 1. Blackout Bot
-    add_job_header(doc, "Blackout Schedule Bot", "Production Telegram Bot", "2025 — Present")
+    add_job_header(doc, "Blackout Schedule Bot", "Pet Project · Production", "2025 — Present")
     add_tech_line(doc, "Python · python-telegram-bot · matplotlib · SQLite · asyncio")
     add_bullets(doc, [
         "Designed and deployed a Telegram bot serving 2,100+ daily active users with personalised Ukrainian power-outage schedules.",
@@ -209,8 +215,18 @@ def build():
         "Maintained 99%+ uptime since launch; source private, currently in production.",
     ])
 
-    # 2. Portfolio Website
-    add_job_header(doc, "Personal Portfolio Website", "Solo Project", "May 2026")
+    # 2. STO Gerat — biggest web project
+    add_job_header(doc, 'STO "Gerat" — Auto Service CRM & Shop', "Pet Project", "2026")
+    add_tech_line(doc, "JavaScript · HTML · CSS · Chart.js · REST API")
+    add_bullets(doc, [
+        "Web CRM for a real auto-repair shop: service catalog (200+ jobs), invoice builder, shop module with stock counters and receipt printing.",
+        "Built an analytics tab with revenue/orders charts, top services, top clients.",
+        "Implemented role-based access (Admin / Cashier) with a dark-themed responsive UI.",
+        "Source: github.com/OleksanderZabila/gerat",
+    ])
+
+    # 3. Portfolio Website
+    add_job_header(doc, "Personal Portfolio Website", "Pet Project", "May 2026")
     add_tech_line(doc, "Django · Tailwind CSS · GitHub API · Telegram Bot API · WhiteNoise")
     add_bullets(doc, [
         "Built a single-page portfolio site from scratch with 6 Django models and a fully customised admin panel.",
@@ -220,8 +236,8 @@ def build():
         "Source: github.com/OleksanderZabila/portfolio",
     ])
 
-    # 3. Auto Pidkliuch
-    add_job_header(doc, "Auto Pidkliuch — Inventory Management System", "Diploma Project", "Feb 2025 — May 2025")
+    # 4. Auto Pidkliuch
+    add_job_header(doc, "Auto Pidkliuch — Inventory Management System", "Diploma / Pet Project", "Feb 2025 — May 2025")
     add_tech_line(doc, "Python · PostgreSQL · Tkinter · psycopg2")
     add_bullets(doc, [
         "Designed an 8-table normalised PostgreSQL schema for an auto-parts store covering products, suppliers, customers, and sales.",
@@ -230,8 +246,8 @@ def build():
         "Owned the project end-to-end from schema design through GUI to handover.",
     ])
 
-    # 4. Weather Bot
-    add_job_header(doc, "Weather Forecast Telegram Bot", "Hobby Project", "Dec 2023")
+    # 5. Weather Bot
+    add_job_header(doc, "Weather Forecast Telegram Bot", "Pet Project", "Dec 2023")
     add_tech_line(doc, "Python · python-telegram-bot · matplotlib · OpenWeather API")
     add_bullets(doc, [
         "Built a Telegram bot delivering daily forecasts with matplotlib-rendered temperature charts.",
@@ -239,8 +255,8 @@ def build():
         "Source: github.com/OleksanderZabila/weather_telegram_bot-master",
     ])
 
-    # 5. Transcriber Bot
-    add_job_header(doc, "Transcriber Bot", "Interview Challenge", "Oct 2025")
+    # 6. Transcriber Bot
+    add_job_header(doc, "Transcriber Bot", "Interview Challenge / Pet Project", "Oct 2025")
     add_tech_line(doc, "Python · python-telegram-bot · speech-to-text")
     add_bullets(doc, [
         "Telegram bot accepting voice/audio messages and returning transcribed text, built as a take-home interview task.",

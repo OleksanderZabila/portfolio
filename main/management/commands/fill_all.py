@@ -33,6 +33,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR("No Profile in DB. Run `seed` first."))
             return
         p.email = "ukzabila@gmail.com"
+        p.linkedin = "https://www.linkedin.com/in/oleksandr-zabila-274aab353/"
         cv_source = CV_DIR / "CV_Aleksandr_Zabila.pdf"
         if attach(p, "cv_file", cv_source):
             print(f"  cv attached: {cv_source.name}")

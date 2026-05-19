@@ -85,19 +85,11 @@
         <h3 class="text-4xl font-bold mb-12">Tech Stack</h3>
         <div class="grid md:grid-cols-2 gap-6">
             {% for category, skills in skills_by_cat.items %}
-            <div class="bg-card border border-border rounded-2xl p-6 hover:border-neon-fuchsia/50 transition group">
-                <h4 class="font-semibold text-lg mb-5 text-neon-fuchsia">{{ category }}</h4>
-                <div class="space-y-4">
+            <div class="bg-card border border-border rounded-2xl p-6 hover:border-neon-fuchsia/50 transition">
+                <h4 class="font-semibold text-lg mb-4 text-neon-fuchsia">{{ category }}</h4>
+                <div class="flex flex-wrap gap-2">
                     {% for skill in skills %}
-                    <div>
-                        <div class="flex justify-between text-sm mb-1">
-                            <span>{{ skill.name }}</span>
-                            <span class="font-mono text-xs text-slate-500">{{ skill.level }}%</span>
-                        </div>
-                        <div class="h-1.5 bg-bg rounded-full overflow-hidden">
-                            <div class="skill-bar h-full bg-gradient-to-r from-neon-cyan to-neon-fuchsia rounded-full" data-level="{{ skill.level }}" style="width:0"></div>
-                        </div>
-                    </div>
+                    <span class="px-3 py-1.5 rounded-full bg-bg border border-border text-sm font-mono">{{ skill.name }}</span>
                     {% endfor %}
                 </div>
             </div>
@@ -124,10 +116,13 @@
 <section id="projects" class="px-6 py-24">
     <div class="max-w-6xl mx-auto reveal">
         <h2 class="text-sm font-mono text-neon-violet mb-2">// projects</h2>
-        <div class="flex items-end justify-between mb-12 flex-wrap gap-4">
+        <div class="flex items-end justify-between mb-4 flex-wrap gap-4">
             <h3 class="text-4xl font-bold">Featured Work</h3>
             <a href="{% url 'main:projects' %}" class="text-sm text-neon-cyan hover:underline font-mono">view all repos →</a>
         </div>
+        <p class="text-slate-400 text-sm mb-10 max-w-2xl">
+            All projects below are <span class="text-neon-fuchsia font-semibold">personal / pet projects</span> — I haven't worked commercially yet. They were built on my own time to learn the stack, solve real problems for friends and small businesses, and ship something useful.
+        </p>
 
         {% if projects %}
         <div class="grid md:grid-cols-2 gap-6 mb-10">
@@ -156,6 +151,10 @@
                 <div class="aspect-video bg-gradient-to-br from-neon-violet/20 via-neon-fuchsia/10 to-neon-cyan/20 flex items-center justify-center font-mono text-4xl text-white/30">&lt;/&gt;</div>
                 {% endif %}
                 <div class="p-6">
+                    <div class="flex items-center gap-2 mb-2 flex-wrap">
+                        <span class="text-[10px] uppercase tracking-wider font-mono px-2 py-0.5 rounded bg-neon-violet/15 border border-neon-violet/30 text-neon-violet">Pet project</span>
+                        {% if p.is_featured %}<span class="text-[10px] uppercase tracking-wider font-mono px-2 py-0.5 rounded bg-neon-cyan/15 border border-neon-cyan/30 text-neon-cyan">Featured</span>{% endif %}
+                    </div>
                     <h4 class="font-bold text-xl mb-2 group-hover:text-neon-violet transition flex items-center gap-2">
                         {{ p.title }}
                     </h4>

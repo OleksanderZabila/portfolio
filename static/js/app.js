@@ -4,26 +4,13 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-// Animate skill bars when visible
-const barIO = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const lvl = e.target.getAttribute('data-level') || 70;
-      e.target.style.transition = 'width 1.2s ease-out';
-      requestAnimationFrame(() => { e.target.style.width = lvl + '%'; });
-      barIO.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.3 });
-document.querySelectorAll('.skill-bar').forEach(el => barIO.observe(el));
-
-// Typewriter
+// Typewriter (Hero subtitle)
 const tw = document.getElementById('typewriter');
 if (tw) {
   const phrases = [
-    window.__profile_title || 'Python Developer',
-    'Backend Engineer',
-    'PostgreSQL Enthusiast',
+    window.__profile_title || 'Junior Python Developer',
+    'Backend & Telegram Bots',
+    'Django Enthusiast',
     'Problem Solver'
   ];
   let p = 0, c = 0, deleting = false;
@@ -67,3 +54,22 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     }
   });
 });
+
+// Theme toggle (initial value is set inline in base.html <head> to avoid flash)
+const themeBtn = document.getElementById('theme-toggle');
+if (themeBtn) {
+  themeBtn.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+}
+
+// Follow OS theme changes only if the user hasn't explicitly chosen one.
+if (window.matchMedia) {
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (!localStorage.getItem('theme')) {
+      document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+    }
+  });
+}

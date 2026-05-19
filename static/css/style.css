@@ -1,8 +1,73 @@
+/* ---------- Theme variables ---------- */
+/* RGB triplets so Tailwind alpha modifiers work: bg-bg/60 etc. */
+:root,
+[data-theme="dark"] {
+    --c-bg:      7 7 11;          /* almost-black */
+    --c-surface: 14 14 20;
+    --c-card:    19 19 28;
+    --c-border:  31 31 46;
+    --c-text:    226 232 240;     /* slate-200 */
+    --c-muted:   148 163 184;     /* slate-400 */
+    --c-faint:   100 116 139;     /* slate-500 */
+    --grid-line: rgba(255, 255, 255, 0.025);
+    --scroll-bg: #07070b;
+}
+
+[data-theme="light"] {
+    --c-bg:      247 249 252;     /* near-white with cool tint */
+    --c-surface: 241 245 249;     /* slate-100 */
+    --c-card:    255 255 255;     /* pure white cards */
+    --c-border:  226 232 240;     /* slate-200 */
+    --c-text:    15 23 42;        /* slate-900 */
+    --c-muted:   71 85 105;       /* slate-600 */
+    --c-faint:   100 116 139;     /* slate-500 */
+    --grid-line: rgba(0, 0, 0, 0.04);
+    --scroll-bg: #f1f5f9;
+}
+
+/* ---------- Body text colors driven by theme ---------- */
+.themed-body { color: rgb(var(--c-text)); }
+.themed-muted { color: rgb(var(--c-muted)); }
+
+/* Override the slate utility classes used throughout the templates so the
+   markup stays the same but text adapts when the theme switches. */
+[data-theme="light"] .text-slate-200 { color: rgb(15, 23, 42); }
+[data-theme="light"] .text-slate-300 { color: rgb(30, 41, 59); }
+[data-theme="light"] .text-slate-400 { color: rgb(71, 85, 105); }
+[data-theme="light"] .text-slate-500 { color: rgb(100, 116, 139); }
+[data-theme="light"] .text-slate-600 { color: rgb(71, 85, 105); }
+[data-theme="light"] .text-white     { color: rgb(15, 23, 42); }
+[data-theme="light"] .text-white\/30 { color: rgba(15, 23, 42, 0.3); }
+
+/* Soften the blob gradients on the bright canvas. */
+[data-theme="light"] .bg-neon-violet\/30 { background-color: rgb(139 92 246 / 0.18); }
+[data-theme="light"] .bg-neon-cyan\/20   { background-color: rgb(34 211 238 / 0.16); }
+[data-theme="light"] .bg-neon-fuchsia\/20 { background-color: rgb(217 70 239 / 0.16); }
+
+/* Background grid pattern (the only place white-on-white was a problem). */
+.grid-pattern {
+    background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+}
+
+/* ---------- Reveal-on-scroll ---------- */
 .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ---------- Misc utilities ---------- */
 .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #07070b; }
+::-webkit-scrollbar-track { background: var(--scroll-bg); }
 ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #8b5cf6, #d946ef); border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #22d3ee, #d946ef); }
+
 html { scroll-padding-top: 80px; }
+
+/* Theme-toggle icons swap visibility per theme. */
+[data-theme="dark"]  .theme-icon-light { display: none; }
+[data-theme="dark"]  .theme-icon-dark  { display: block; }
+[data-theme="light"] .theme-icon-light { display: block; }
+[data-theme="light"] .theme-icon-dark  { display: none; }

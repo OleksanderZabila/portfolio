@@ -16,48 +16,54 @@ class Command(BaseCommand):
 
         Profile.objects.create(
             full_name="Aleksandr Zabila",
-            title="Python Developer | Backend & Databases",
+            title="Junior Python Developer",
             summary=(
-                "Motivated and detail-oriented Computer Engineering student at MAUP "
-                "(University of Modern Knowledge), specializing in software development "
-                "and database design. Strong foundation in Python and C++, with practical "
-                "experience in building efficient and well-structured PostgreSQL databases.\n\n"
-                "Passionate about teamwork and highly enthusiastic about contributing to "
-                "real-world projects. Enjoy solving complex problems and continuously "
-                "improving technical skills. Currently seeking an opportunity to join a "
-                "large development team to grow professionally, gain industry experience, "
-                "and make a meaningful impact through innovative software solutions."
+                "Python developer focused on backend systems and Telegram bots. Worked "
+                "with Python, Django, python-telegram-bot, PostgreSQL, and SQLite — "
+                "built a production Telegram bot currently serving 2,100+ daily users, "
+                "a desktop CRM for a real auto-parts shop, and a web CRM/POS system "
+                "for an auto service.\n\n"
+                "Completing a Master's in Computer Engineering at MAUP. Looking for "
+                "an opportunity to gain commercial experience in a strong engineering "
+                "team and grow into a confident backend engineer."
             ),
-            email="",
+            email="ukzabila@gmail.com",
             phone="+380508384092",
             telegram="ZabilaOleksandr",
             github="OleksanderZabila",
-            linkedin="",
-            location="Odesa, Ukraine",
+            linkedin="https://www.linkedin.com/in/oleksandr-zabila-274aab353/",
+            location="Cherkasy, Ukraine",
             is_available=True,
         )
 
+        # Skills are shown as plain chips (no progress bars / percentages).
+        # The level field exists in the model for sorting only.
         skills = [
-            ("Python", "backend", 85, 1),
-            ("C++", "backend", 70, 2),
-            ("Django", "backend", 65, 3),
-            ("python-telegram-bot", "backend", 75, 4),
-            ("Tkinter", "backend", 75, 5),
-            ("HTML", "frontend", 75, 1),
-            ("CSS", "frontend", 70, 2),
-            ("JavaScript", "frontend", 50, 3),
-            ("PostgreSQL", "database", 80, 1),
-            ("SQL", "database", 80, 2),
-            ("Git", "tools", 80, 1),
-            ("VS Code", "tools", 90, 2),
-            ("PyCharm", "tools", 85, 3),
-            ("pgAdmin", "tools", 80, 4),
-            ("Terminal", "tools", 75, 5),
-            ("Ukrainian — Native", "language", 100, 1),
-            ("English — A2", "language", 40, 2),
+            ("Python", "backend", 1),
+            ("Django", "backend", 2),
+            ("python-telegram-bot", "backend", 3),
+            ("C++", "backend", 4),
+            ("Tkinter", "backend", 5),
+            ("PostgreSQL", "backend", 6),
+            ("SQLite", "backend", 7),
+            ("SQL", "backend", 8),
+            ("REST APIs", "backend", 9),
+            ("HTML", "frontend", 1),
+            ("CSS", "frontend", 2),
+            ("Tailwind CSS", "frontend", 3),
+            ("JavaScript", "frontend", 4),
+            ("Git", "tools", 1),
+            ("GitHub", "tools", 2),
+            ("PyCharm", "tools", 3),
+            ("VS Code", "tools", 4),
+            ("pgAdmin", "tools", 5),
+            ("matplotlib", "tools", 6),
+            ("Terminal / PowerShell", "tools", 7),
+            ("Ukrainian — Native", "language", 1),
+            ("English — A2", "language", 2),
         ]
-        for name, cat, lvl, o in skills:
-            Skill.objects.create(name=name, category=cat, level=lvl, order=o)
+        for name, cat, o in skills:
+            Skill.objects.create(name=name, category=cat, level=0, order=o)
 
         Project.objects.create(
             title="Inventory Management System — Auto Pidkliuch",
@@ -104,10 +110,15 @@ class Command(BaseCommand):
         Project.objects.create(
             title="Personal Finance Telegram Bot",
             slug="finance-bot",
-            short_description="Bot for logging and analyzing personal/home expenses.",
-            description="Designed for tracking everyday spending with categorization and local data processing.",
+            short_description="Bot for logging and analyzing personal/home expenses with categories and summaries.",
+            description=(
+                "Personal pet project — a small Telegram bot I use myself to log daily "
+                "expenses, categorise them, and print a quick summary. Stores data in "
+                "SQLite locally; no commercial deployment."
+            ),
             tech_stack="Python, python-telegram-bot, SQLite",
-            github_url="https://github.com/OleksanderZabila",
+            github_url="",
+            is_confidential=True,
             is_featured=False,
             order=4,
         )
