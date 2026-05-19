@@ -30,8 +30,14 @@
               surface: 'rgb(var(--c-surface) / <alpha-value>)',
               card:    'rgb(var(--c-card) / <alpha-value>)',
               border:  'rgb(var(--c-border) / <alpha-value>)',
-              // Neon accents stay solid in both themes.
-              neon: { cyan: '#22d3ee', fuchsia: '#d946ef', violet: '#8b5cf6', lime: '#a3e635' }
+              // Accent palette is themeable too: bright neon on dark,
+              // warm earth tones on the cream light theme.
+              neon: {
+                cyan:    'rgb(var(--c-accent-1) / <alpha-value>)',
+                fuchsia: 'rgb(var(--c-accent-2) / <alpha-value>)',
+                violet:  'rgb(var(--c-accent-3) / <alpha-value>)',
+                lime:    'rgb(var(--c-accent-4) / <alpha-value>)',
+              }
             },
             fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'], mono: ['JetBrains Mono','ui-monospace'] },
             animation: {
