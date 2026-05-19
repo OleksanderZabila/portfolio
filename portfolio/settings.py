@@ -9,9 +9,25 @@ DEBUG = config("DEBUG", default=True, cast=bool)
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="*", cast=Csv())
 CSRF_TRUSTED_ORIGINS = [
     "https://*.ngrok-free.app",
+    "https://*.ngrok-free.dev",
     "https://*.ngrok.io",
     "https://*.ngrok.app",
+    "https://*.ngrok.dev",
+    "https://*.onrender.com",
 ]
+
+# Render runs behind a reverse proxy; trust X-Forwarded-Proto so Django
+# knows the original request was HTTPS and generates correct absolute URLs.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# Production hardening (only kicks in when DEBUG=False).
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 60 * 60 * 24 * 30  # 30 days
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
 
 GITHUB_USERNAME = config("GITHUB_USERNAME", default="OleksanderZabila")
 GITHUB_TOKEN = config("GITHUB_TOKEN", default="")
