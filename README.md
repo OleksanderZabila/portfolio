@@ -2,7 +2,7 @@
 
 > My personal portfolio site, built from scratch with Django. Dark-neon design, live GitHub integration, Telegram notifications for the contact form.
 
-🌐 **Live demo:** [curfew-spree-kudos.ngrok-free.dev](https://aleksandr-zabila.onrender.com/)) *(local tunnel — may go offline)*
+🌐 **Live demo:** [WEBSITE](https://aleksandr-zabila.onrender.com/)) *(local tunnel — may go offline)*
 
 📍 Cherkasy, Ukraine — open to work
 
